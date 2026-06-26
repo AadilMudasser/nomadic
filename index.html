@@ -38,7 +38,6 @@ body {
   z-index: 9999;
   transform: translate(-50%, -50%);
   transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s;
-  mix-blend-mode: normal;
 }
 #cursor-ring {
   position: fixed;
@@ -130,7 +129,6 @@ nav.line-in::after { transform: scaleX(1); }
 }
 .nav-book:hover { background: var(--white); }
 
-/* hamburger */
 .nav-hamburger {
   display: none;
   flex-direction: column;
@@ -294,24 +292,29 @@ nav.line-in::after { transform: scaleX(1); }
 }
 .hero-tagline em { color: var(--gold); font-style: italic; }
 
+/* ── CRITICAL FIX: ACCURATE CENTERING SYSTEM FOR LANDING SCROLL HINT ── */
 .hero-location {
   position: absolute;
   bottom: 36px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: max-content;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
   opacity: 0;
   animation: fadeUp 0.8s ease 3.2s forwards;
-  z-index: 2;
+  z-index: 10;
 }
 .hero-location span {
   font-size: 9px;
   letter-spacing: 0.4em;
   text-transform: uppercase;
   color: rgba(245,243,240,0.22);
+  display: block;
+  text-align: center;
 }
 .scroll-line {
   width: 0.5px; height: 48px;
@@ -519,7 +522,6 @@ section { position: relative; overflow: hidden; }
   position: relative;
   padding-left: 50px;
 }
-/* The vertical guiding animated path line */
 .expect-track-line {
   position: absolute;
   left: 6px;
@@ -547,7 +549,6 @@ section { position: relative; overflow: hidden; }
 .expect-step:last-child {
   margin-bottom: 0;
 }
-/* Timeline node bullet point dots */
 .expect-node {
   position: absolute;
   left: -50px;
@@ -705,50 +706,75 @@ section { position: relative; overflow: hidden; }
 }
 .s-book-btn:hover { background: var(--gold); color: var(--black); opacity: 1; }
 
-/* ── PHOTO STRIP ── */
-#strip {
-  padding: 0;
-  overflow: hidden;
+/* ── REENGINEERED HIGH-END ASYMMETRIC MASONRY GALLERY ── */
+#gallery-section {
+  padding: 120px 60px;
 }
-.strip-inner {
-  display: flex;
-  gap: 2px;
-  transform: translateX(40px);
-  transition: transform 1.2s ease;
+.gallery-header {
+  margin-bottom: 60px;
+  text-align: left;
 }
-.strip-inner.in { transform: translateX(0); }
-.strip-photo {
-  flex: 0 0 25vw;
-  height: 55vh;
-  overflow: hidden;
+.gallery-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 1;
+}
+.gallery-title em { font-style: italic; color: var(--gold); }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 30px;
+  row-gap: 60px;
+}
+.gallery-item {
   position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
 }
-.strip-photo img {
-  width: 100%; height: 100%;
+.gallery-item.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: center;
-  filter: brightness(0.65) contrast(1.1) grayscale(20%);
-  transition: filter 0.5s, transform 0.6s;
   display: block;
-  transform: scale(1.06);
+  filter: brightness(0.7) contrast(1.05) grayscale(15%);
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s ease;
 }
-.strip-photo:hover img {
-  filter: brightness(0.8) contrast(1.05) grayscale(0%);
-  transform: scale(1);
+.gallery-item:hover img {
+  transform: scale(1.04);
+  filter: brightness(0.85) contrast(1.02) grayscale(0%);
 }
-.strip-caption {
+.gallery-caption {
   position: absolute;
   bottom: 20px; left: 20px;
   font-size: 9px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(245,243,240,0.45);
+  color: var(--gold);
   opacity: 0;
-  transition: opacity 0.4s;
+  transform: translateY(10px);
+  transition: opacity 0.4s, transform 0.4s;
 }
-.strip-photo:hover .strip-caption { opacity: 1; }
+.gallery-item:hover .gallery-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-/* ── MONIQUE ── */
+/* Luxury Dynamic Layout Spans */
+.gi-1 { grid-column: span 4; aspect-ratio: 3/4; }
+.gi-2 { grid-column: span 5; aspect-ratio: 4/3; margin-top: 40px; }
+.gi-3 { grid-column: span 3; aspect-ratio: 1/1; }
+.gi-4 { grid-column: span 5; aspect-ratio: 16/10; }
+.gi-5 { grid-column: span 7; aspect-ratio: 4/3; margin-top: -30px; }
+
+/* ── MEET MONIQUE ── */
 #monique {
   padding: 120px 60px;
   display: grid;
@@ -985,14 +1011,11 @@ footer {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
-@keyframes fadeIn { to { opacity: 1; } }
 @keyframes scrollDrop {
   0% { top: -100%; }
   100% { top: 100%; }
 }
-@keyframes drawLine {
-  to { stroke-dashoffset: 0; }
-}
+@keyframes drawLine { to { stroke-dashoffset: 0; } }
 
 .animated-line {
   stroke-dasharray: var(--len, 2000);
@@ -1000,7 +1023,7 @@ footer {
   animation: drawLine var(--dur, 2s) ease var(--delay, 0s) forwards;
 }
 
-/* ── MOBILE ── */
+/* ── DEVICE & RESPONSIVE LAYOUT RESPONSES ── */
 @media (max-width: 900px) {
   nav { padding: 22px 24px; }
   nav.scrolled { padding: 16px 24px; }
@@ -1009,9 +1032,24 @@ footer {
   .nav-hamburger { display: flex; }
 
   #hero { padding: 0 24px 64px; min-height: 100svh; }
-  .hero-title { font-size: clamp(52px, 12vw, 88px); }
-  .hero-bottom { flex-direction: column; align-items: flex-start; gap: 24px; }
-  .scroll-hint { display: none; }
+  
+  /* CRITICAL FORCE-TRUE CENTER SEPARATOR FIX FOR MOBILE VIEWPORTS */
+  .hero-location {
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    transform: none !important;
+    bottom: 30px;
+  }
+
+  /* HARD SHARP SEPARATORS FOR CLEAN PAGE SEGMENTATION ON PHONE */
+  .section-line { 
+    left: 0 !important; 
+    right: 0 !important; 
+    width: 100% !important; 
+    background: rgba(201,169,110,0.2) !important; /* Elegant subtle gold tint rules */
+    transform: scaleX(1) !important;
+  }
 
   #about {
     grid-template-columns: 1fr;
@@ -1035,7 +1073,18 @@ footer {
   .service-card { border-left: none; border-right: none; }
   .s-book-btn { opacity: 0.9; transform: translateY(0); }
 
-  .strip-photo { flex: 0 0 70vw; height: 40vh; }
+  /* MOBILE-FIRST SHARP EDITORIAL GALLERY GRID */
+  #gallery-section { padding: 80px 24px; }
+  .gallery-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .gallery-item {
+    grid-column: span 12 !important;
+    margin-top: 0 !important;
+    aspect-ratio: 4/5 !important;
+  }
 
   #monique {
     grid-template-columns: 1fr;
@@ -1058,8 +1107,6 @@ footer {
   .footer-links { flex-wrap: wrap; gap: 20px; }
 
   .float-book { bottom: 20px; right: 20px; }
-
-  .section-line { left: 24px; right: 24px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1075,28 +1122,33 @@ footer {
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 
+<!-- MOBILE MENU -->
 <div class="nav-mobile-menu" id="mobileMenu">
   <a href="#about" class="mob-link">Studio</a>
   <a href="#expect" class="mob-link">Experience</a>
   <a href="#services" class="mob-link">Services</a>
+  <a href="#gallery-section" class="mob-link">Gallery</a>
   <a href="#monique" class="mob-link">Monique</a>
   <a href="#cta" class="mob-book">Book Now</a>
 </div>
 
+<!-- NAV -->
 <nav id="main-nav">
   <a href="#" class="nav-logo">NOMADIC<span>.</span></a>
   <ul class="nav-links">
     <li><a href="#about">Studio</a></li>
     <li><a href="#expect">Experience</a></li>
     <li><a href="#services">Services</a></li>
+    <li><a href="#gallery-section">Gallery</a></li>
     <li><a href="#monique">Monique</a></li>
   </ul>
   <a href="#cta" class="nav-book">Book Now</a>
   <button class="nav-hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span><span></span></span><span></span>
+    <span></span><span></span><span></span>
   </button>
 </nav>
 
+<!-- HERO -->
 <section id="hero">
   <div class="hero-glow-center"></div>
   <div class="hero-grid">
@@ -1108,8 +1160,6 @@ footer {
       <line x1="1380" y1="0" x2="1380" y2="900" stroke="rgba(201,169,110,0.05)" stroke-width="0.5" class="animated-line" style="--len:900;--dur:2s;--delay:0.3s"/>
       <line x1="0" y1="80"  x2="1440" y2="80"  stroke="rgba(245,243,240,0.04)" stroke-width="0.5" class="animated-line" style="--len:1440;--dur:1.8s;--delay:0.4s"/>
       <line x1="0" y1="820" x2="1440" y2="820" stroke="rgba(245,243,240,0.04)" stroke-width="0.5" class="animated-line" style="--len:1440;--dur:1.8s;--delay:0.4s"/>
-      <line x1="0" y1="0" x2="1440" y2="900" stroke="rgba(201,169,110,0.025)" stroke-width="0.5" class="animated-line" style="--len:1700;--dur:3s;--delay:0.6s"/>
-      <line x1="1440" y1="0" x2="0" y2="900" stroke="rgba(201,169,110,0.025)" stroke-width="0.5" class="animated-line" style="--len:1700;--dur:3s;--delay:0.8s"/>
     </svg>
   </div>
 
@@ -1137,6 +1187,7 @@ footer {
   </div>
 </section>
 
+<!-- MARQUEE -->
 <div class="marquee-wrap">
   <div class="marquee-inner">
     <span class="marquee-item">Blonding</span><span class="marquee-item marquee-dot">·</span>
@@ -1156,6 +1207,7 @@ footer {
   </div>
 </div>
 
+<!-- ABOUT -->
 <section id="about">
   <div class="section-line" data-line></div>
   <div class="about-text fade-up">
@@ -1173,10 +1225,6 @@ footer {
         <span class="acc-num">Doha</span>
         <span class="acc-label">Based in Qatar</span>
       </div>
-      <div>
-        <span class="acc-num">10+</span>
-        <span class="acc-label">Years of artistry</span>
-      </div>
     </div>
   </div>
   <div class="about-img-wrap fade-up" style="transition-delay:0.2s">
@@ -1185,6 +1233,7 @@ footer {
   </div>
 </section>
 
+<!-- EXPECT EXPERIENCE -->
 <section id="expect">
   <div class="section-line" data-line></div>
   <div class="expect-container">
@@ -1199,28 +1248,28 @@ footer {
       <div class="expect-track-line"></div>
       <div class="expect-progress-line" data-timeline-line></div>
 
-      <div class="expect-step fade-up" style="transition-delay: 0.1s">
+      <div class="expect-step fade-up">
         <div class="expect-node"></div>
         <p class="expect-meta">01 / Secure Your Space</p>
         <h3>Intuitive Digital Booking</h3>
         <p>Your sanctuary experience starts right where you are. Use our integrated booking engine to view modern availability, select your customized hair ritual, and immediately lock in your single-client time slot.</p>
       </div>
 
-      <div class="expect-step fade-up" style="transition-delay: 0.2s">
+      <div class="expect-step fade-up">
         <div class="expect-node"></div>
         <p class="expect-meta">02 / Enter the Sanctuary</p>
         <h3>A Space of Pure Quietude</h3>
         <p>Leave Doha's frantic pace behind at the door. Upon entering, you are welcomed by clean architectural air, calibrated organic textures, dynamic low lighting, and personalized refreshments intended to calm the nervous system.</p>
       </div>
 
-      <div class="expect-step fade-up" style="transition-delay: 0.3s">
+      <div class="expect-step fade-up">
         <div class="expect-node"></div>
         <p class="expect-meta">03 / Artistry Meets Intention</p>
         <h3>The Tailored Session</h3>
         <p>No generic routines, ever. Your session initiates with a deep, one-on-one architectural consultation analyzing your natural texture, movement profiles, and skin tones. We tailor our technical mastery entirely to your personal aura.</p>
       </div>
 
-      <div class="expect-step fade-up" style="transition-delay: 0.4s">
+      <div class="expect-step fade-up">
         <div class="expect-node"></div>
         <p class="expect-meta">04 / The Return</p>
         <h3>Step Back Renewed</h3>
@@ -1230,6 +1279,7 @@ footer {
   </div>
 </section>
 
+<!-- SERVICES -->
 <section id="services">
   <div class="section-line" data-line></div>
   <div class="services-header fade-up">
@@ -1245,7 +1295,7 @@ footer {
       <p class="service-desc">Balayage, highlights, toning and full bleach — precision blonding tailored to your hair health and lifestyle.</p>
       <a href="BOOKING_LINK_HERE" class="s-book-btn">Book This Service</a>
     </div>
-    <div class="service-card fade-up" style="transition-delay:0.15s">
+    <div class="service-card fade-up">
       <p class="service-num">02</p>
       <img class="service-img" src="https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?w=700&q=80" alt="Vivid Colour" loading="lazy">
       <h3 class="service-name">Vivid Colour</h3>
@@ -1253,7 +1303,7 @@ footer {
       <p class="service-desc">Bold, expressive colour work — from fashion pastels to saturated vivids. We push colour further.</p>
       <a href="BOOKING_LINK_HERE" class="s-book-btn">Book This Service</a>
     </div>
-    <div class="service-card fade-up" style="transition-delay:0.3s">
+    <div class="service-card fade-up">
       <p class="service-num">03</p>
       <img class="service-img" src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=700&q=80" alt="Cutting" loading="lazy">
       <h3 class="service-name">Advanced Cutting</h3>
@@ -1264,52 +1314,57 @@ footer {
   </div>
 </section>
 
-<section id="strip">
-  <div class="strip-inner" id="stripInner">
-    <div class="strip-photo">
-      <img src="https://images.unsplash.com/photo-1522338140262-f46f5913618a?w=600&q=80" alt="Salon detail" loading="lazy">
-      <span class="strip-caption">The Studio</span>
+<!-- ASYMMETRIC VISUAL GALLERY SECTION -->
+<section id="gallery-section">
+  <div class="section-line" data-line></div>
+  <div class="gallery-header fade-up">
+    <p class="about-label">Visual Journal</p>
+    <h2 class="gallery-title">The <em>Gallery</em></h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item gi-1 fade-up">
+      <img src="https://images.unsplash.com/photo-1522338140262-f46f5913618a?w=600&q=80" alt="Studio details" loading="lazy">
+      <span class="gallery-caption">The Space</span>
     </div>
-    <div class="strip-photo">
-      <img src="https://images.unsplash.com/photo-1470259078422-826894b933aa?w=600&q=80" alt="Hair colour" loading="lazy">
-      <span class="strip-caption">Colour Work</span>
+    <div class="gallery-item gi-2 fade-up">
+      <img src="https://images.unsplash.com/photo-1470259078422-826894b933aa?w=700&q=80" alt="Colour depth" loading="lazy">
+      <span class="gallery-caption">Precision Form</span>
     </div>
-    <div class="strip-photo">
-      <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=80" alt="Styling" loading="lazy">
-      <span class="strip-caption">Styling</span>
+    <div class="gallery-item gi-3 fade-up">
+      <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=80" alt="Texture styling" loading="lazy">
+      <span class="gallery-caption">Texture Study</span>
     </div>
-    <div class="strip-photo">
-      <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=600&q=80" alt="Finishing" loading="lazy">
-      <span class="strip-caption">The Finish</span>
+    <div class="gallery-item gi-4 fade-up">
+      <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=700&q=80" alt="Finished look" loading="lazy">
+      <span class="gallery-caption">Calculated Finish</span>
+    </div>
+    <div class="gallery-item gi-5 fade-up">
+      <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&q=80" alt="Salon curation" loading="lazy">
+      <span class="gallery-caption">The Collective</span>
     </div>
   </div>
 </section>
 
+<!-- MEET MONIQUE -->
 <section id="monique">
   <div class="section-line" data-line></div>
   <div class="monique-img-wrap fade-up">
-    <img class="monique-img" src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=900&q=80" alt="Monique — Founder & Lead Stylist" loading="lazy">
+    <img class="monique-img" src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=900&q=80" alt="Monique" loading="lazy">
     <div class="monique-quote">
       <p>Hair is the most honest expression of who you are becoming.</p>
     </div>
   </div>
-  <div class="monique-content fade-up" style="transition-delay:0.2s">
+  <div class="monique-content fade-up">
     <p class="about-label">The Artist Behind Nomadic</p>
     <h2 class="monique-name">Monique</h2>
     <p class="monique-title-sub">Founder & Lead Stylist</p>
     <p class="monique-bio">
       With years of experience across luxury salons internationally, Monique founded NOMADIC with a singular vision — to create a space where artistry meets intention. Her expertise spans every texture and tone, and her approach is always deeply personal.
-      <br><br>
-      She believes the chair is a place of trust, transformation, and above all, self-expression without limits.
     </p>
     <div class="monique-stats">
       <div>
         <span class="stat-num">10+</span>
         <span class="stat-label">Years of artistry</span>
-      </div>
-      <div>
-        <span class="stat-num">All</span>
-        <span class="stat-label">Hair types</span>
       </div>
       <div>
         <span class="stat-num">QA</span>
@@ -1319,41 +1374,35 @@ footer {
   </div>
 </section>
 
+<!-- CTA -->
 <section id="cta">
   <div class="cta-bg"></div>
-  <div class="cta-bg-lines">
-    <svg width="100%" height="100%" viewBox="0 0 1440 600" preserveAspectRatio="none" fill="none">
-      <line x1="0" y1="300" x2="1440" y2="300" stroke="rgba(201,169,110,0.06)" stroke-width="0.5" class="animated-line" style="--len:1440;--dur:2s;--delay:0s" id="ctaL1"/>
-      <line x1="720" y1="0" x2="720" y2="600" stroke="rgba(201,169,110,0.06)" stroke-width="0.5" class="animated-line" style="--len:600;--dur:2s;--delay:0.2s" id="ctaL2"/>
-      <circle cx="720" cy="300" r="180" stroke="rgba(201,169,110,0.06)" stroke-width="0.5" fill="none" stroke-dasharray="1131" stroke-dashoffset="1131" id="ctaCircle" style="animation:drawLine 3s ease 0.4s forwards"/>
-      <circle cx="720" cy="300" r="280" stroke="rgba(201,169,110,0.03)" stroke-width="0.5" fill="none" stroke-dasharray="1759" stroke-dashoffset="1759" style="animation:drawLine 3.5s ease 0.6s forwards"/>
-    </svg>
-  </div>
   <div class="section-line" data-line></div>
   <p class="cta-eyebrow fade-up">Begin Your Transformation</p>
-  <h2 class="cta-heading fade-up" style="transition-delay:0.15s">Book Your<br><em>Consultation</em></h2>
-  <a href="BOOKING_LINK_HERE" class="cta-btn fade-up" style="transition-delay:0.3s">
+  <h2 class="cta-heading fade-up">Book Your<br><em>Consultation</em></h2>
+  <a href="BOOKING_LINK_HERE" class="cta-btn fade-up">
     <span>Book a Free Consultation</span>
   </a>
-  <p class="cta-sub fade-up" style="transition-delay:0.45s">Complimentary · No commitment · Doha, Qatar</p>
+  <p class="cta-sub fade-up">Complimentary · No commitment · Doha, Qatar</p>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <span class="footer-logo">NOMADIC<span>.</span> HAIR | BEAUTY</span>
   <ul class="footer-links">
     <li><a href="#about">Studio</a></li>
     <li><a href="#expect">Experience</a></li>
     <li><a href="#services">Services</a></li>
+    <li><a href="#gallery-section">Gallery</a></li>
     <li><a href="#monique">Monique</a></li>
-    <li><a href="#cta">Book</a></li>
   </ul>
-  <span class="footer-copy">© 2025 Nomadic · Doha, Qatar</span>
+  <span class="footer-copy">© 2026 Nomadic · Doha, Qatar</span>
 </footer>
 
 <a href="#cta" class="float-book" id="floatBook">Book Now</a>
 
 <script>
-// custom cursor
+// custom cursor tracking
 const cur = document.getElementById('cursor');
 const ring = document.getElementById('cursor-ring');
 let mx = 0, my = 0, rx = 0, ry = 0;
@@ -1366,30 +1415,14 @@ function animCursor() {
 }
 animCursor();
 
-// hero parallax
-const heroImg = document.getElementById('heroImg');
-window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  if (y < window.innerHeight && heroImg) {
-    heroImg.style.transform = 'translateY(' + (y * 0.3) + 'px)';
-  }
-}, { passive: true });
-
-// hero entrance — nav line draws in after letters finish
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.querySelector('nav').classList.add('line-in');
-  }, 2200);
-});
-
-// nav scroll
+// nav scroll behavior
 window.addEventListener('scroll', () => {
   const nav = document.getElementById('main-nav');
   nav.classList.toggle('scrolled', window.scrollY > 60);
   document.getElementById('floatBook').classList.toggle('show', window.scrollY > window.innerHeight * 0.6);
 }, { passive: true });
 
-// hamburger
+// mobile dynamic interactive menu setup
 const hbg = document.getElementById('hamburger');
 const mob = document.getElementById('mobileMenu');
 hbg.addEventListener('click', () => {
@@ -1401,25 +1434,23 @@ mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
   mob.classList.remove('open');
 }));
 
-// scroll observer
+// entrance animations delay system
+window.addEventListener('load', () => {
+  setTimeout(() => { document.querySelector('nav').classList.add('line-in'); }, 2200);
+});
+
+// dynamic scroll reveal structural tracking
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (!e.isIntersecting) return;
-    if (e.target.classList.contains('fade-up')) {
-      e.target.classList.add('in');
-      // If the visible element is an experience timeline step, flag it active
-      if (e.target.classList.contains('expect-step')) {
-        e.target.classList.add('in');
-      }
-    }
+    if (e.target.classList.contains('fade-up')) e.target.classList.add('in');
     if (e.target.dataset.line !== undefined) e.target.classList.add('drawn');
     if (e.target.dataset.border !== undefined) e.target.classList.add('in');
-    if (e.target.id === 'stripInner') e.target.classList.add('in');
     if (e.target.hasAttribute('data-timeline-line')) e.target.classList.add('drawn');
   });
-}, { threshold: 0.15 });
+}, { threshold: 0.1 });
 
-document.querySelectorAll('.fade-up, [data-line], [data-border], #stripInner, [data-timeline-line], .expect-step').forEach(el => obs.observe(el));
+document.querySelectorAll('.fade-up, [data-line], [data-border], [data-timeline-line], .gallery-item').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
