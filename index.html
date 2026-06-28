@@ -19,7 +19,7 @@
   --line-stone: rgba(154,149,144,0.25);
 }
 
-html { scroll-behavior: smooth; scroll-margin-top: 90px; }
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--black);
@@ -166,7 +166,7 @@ body::before {
   opacity: 0;
   transition: opacity 0.4s;
 }
-.cracked-btn:hover::before { opacity: 0.75; }
+.cracked-btn:hover::before { opacity: 1; }
 .cracked-btn span { position: relative; z-index: 2; }
 
 @keyframes crackDraw {
@@ -224,6 +224,7 @@ footer {
 }
 
 /* ── CUSTOM CURSOR ── */
+
 #cursor {
   position: fixed;
   width: 8px; height: 8px;
@@ -487,6 +488,7 @@ nav.line-in::after { transform: scaleX(1); }
 }
 .hero-tagline em { color: var(--cream); font-style: italic; }
 
+/* ── CRITICAL FIX: ACCURATE CENTERING SYSTEM FOR LANDING SCROLL HINT ── */
 .hero-location {
   position: absolute;
   bottom: 36px;
@@ -595,13 +597,9 @@ section { position: relative; overflow: hidden; }
 }
 .fade-up.in { opacity: 1; transform: translateY(0); }
 
-/* ── EDITORIAL WORKSPACE EXTRA BREATHING ROOM ── */
-#about, #expect, #services, #gallery-section, #monique, #cta {
-  padding: 160px 60px;
-}
-
 /* ── ABOUT ── */
 #about {
+  padding: 120px 60px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
@@ -682,6 +680,9 @@ section { position: relative; overflow: hidden; }
 }
 
 /* ── WHAT TO EXPECT / JOURNEY ── */
+#expect {
+  padding: 120px 60px;
+}
 .expect-container {
   max-width: 1100px;
   margin: 0 auto;
@@ -798,6 +799,7 @@ section { position: relative; overflow: hidden; }
 }
 
 /* ── SERVICES ── */
+#services { padding: 120px 60px; }
 .services-header {
   display: flex;
   justify-content: space-between;
@@ -900,7 +902,10 @@ section { position: relative; overflow: hidden; }
 }
 .s-book-btn:hover { background: var(--cream); color: var(--black); opacity: 1; }
 
-/* ── REENGINEERED EDITORIAL MASONRY GALLERY ── */
+/* ── REENGINEERED HIGH-END ASYMMETRIC MASONRY GALLERY ── */
+#gallery-section {
+  padding: 120px 60px;
+}
 .gallery-header {
   margin-bottom: 60px;
   text-align: left;
@@ -917,10 +922,11 @@ section { position: relative; overflow: hidden; }
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 30px;
-  row-gap: 50px;
+  row-gap: 60px;
 }
 .gallery-item {
   position: relative;
+  overflow: hidden;
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
@@ -928,11 +934,6 @@ section { position: relative; overflow: hidden; }
 .gallery-item.in {
   opacity: 1;
   transform: translateY(0);
-}
-.gallery-img-container {
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
 }
 .gallery-item img {
   width: 100%;
@@ -947,13 +948,19 @@ section { position: relative; overflow: hidden; }
   filter: brightness(0.8) contrast(1.05) grayscale(10%) saturate(0.7);
 }
 .gallery-caption {
-  display: block;
-  margin-top: 14px;
+  position: absolute;
+  bottom: 20px; left: 20px;
   font-size: 9px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--stone);
-  opacity: 0.6;
+  color: var(--cream);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s, transform 0.4s;
+}
+.gallery-item:hover .gallery-caption {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Luxury Dynamic Layout Spans */
@@ -963,23 +970,17 @@ section { position: relative; overflow: hidden; }
 .gi-4 { grid-column: span 5; aspect-ratio: 16/10; }
 .gi-5 { grid-column: span 7; aspect-ratio: 4/3; margin-top: -30px; }
 
-/* ── HIGH-END ASYMMETRIC MAGAZINE SPREAD (MONIQUE) ── */
-@media (min-width: 901px) {
-  #monique {
-    grid-template-columns: 1.1fr 0.9fr !important;
-    gap: 40px !important;
-  }
-  .monique-content {
-    position: relative;
-    z-index: 5;
-    padding-left: 60px;
-    margin-left: -100px;
-    background: transparent;
-  }
+/* ── MEET MONIQUE ── */
+#monique {
+  padding: 120px 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
 }
 .monique-img-wrap {
   position: relative;
-  height: 680px;
+  height: 640px;
 }
 .monique-img {
   width: 100%; height: 100%;
@@ -1067,6 +1068,7 @@ section { position: relative; overflow: hidden; }
 
 /* ── CTA ── */
 #cta {
+  padding: 160px 60px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -1075,6 +1077,11 @@ section { position: relative; overflow: hidden; }
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse at center, rgba(154,149,144,0.04) 0%, transparent 65%);
+  pointer-events: none;
+}
+.cta-bg-lines {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
 }
 .cta-eyebrow {
@@ -1222,6 +1229,7 @@ footer {
 
   #hero { padding: 0 24px 64px; min-height: 100svh; }
   
+  /* CRITICAL FORCE-TRUE CENTER SEPARATOR FIX FOR MOBILE VIEWPORTS */
   .hero-location {
     left: 0 !important;
     right: 0 !important;
@@ -1230,6 +1238,7 @@ footer {
     bottom: 30px;
   }
 
+  /* HARD SHARP SEPARATORS FOR CLEAN PAGE SEGMENTATION ON PHONE */
   .section-line { 
     left: 0 !important; 
     right: 0 !important; 
@@ -1238,29 +1247,30 @@ footer {
     transform: scaleX(1) !important;
   }
 
-  #about, #expect, #services, #gallery-section, #monique, #cta {
-    padding: 80px 24px !important;
-  }
-
   #about {
     grid-template-columns: 1fr;
+    padding: 80px 24px;
     gap: 48px;
   }
   .about-img-wrap { height: 380px; }
   .about-img-border { display: none; }
 
+  #expect { padding: 80px 24px; }
   .expect-container { grid-template-columns: 1fr; gap: 40px; }
   .expect-sticky-header .sticky-wrapper { position: static; }
   .expect-timeline { padding-left: 35px; }
   .expect-track-line, .expect-progress-line { left: 5px; }
   .expect-node { left: -35px; }
 
+  #services { padding: 80px 24px; }
   .services-header { flex-direction: column; align-items: flex-start; gap: 16px; }
   .services-intro { text-align: left; max-width: 100%; }
   .services-grid { grid-template-columns: 1fr; }
   .service-card { border-left: none; border-right: none; }
   .s-book-btn { opacity: 0.9; transform: translateY(0); }
 
+  /* MOBILE-FIRST SHARP EDITORIAL GALLERY GRID */
+  #gallery-section { padding: 80px 24px; }
   .gallery-grid {
     display: flex;
     flex-direction: column;
@@ -1273,14 +1283,15 @@ footer {
   }
 
   #monique {
-    grid-template-columns: 1fr !important;
-    gap: 48px !important;
+    grid-template-columns: 1fr;
+    padding: 80px 24px;
+    gap: 48px;
   }
-  .monique-content { padding-left: 0; margin-left: 0; }
   .monique-img-wrap { height: 420px; }
   .monique-quote { max-width: 220px; }
   .monique-stats { gap: 24px; flex-wrap: wrap; }
 
+  #cta { padding: 100px 24px; }
   .cta-heading { font-size: clamp(44px, 11vw, 80px); }
 
   footer {
@@ -1343,16 +1354,20 @@ footer {
   <!-- CRACK OVERLAY -->
   <div id="hero-crack">
     <svg viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Main crack cluster — left-centre -->
       <path d="M520 0 L498 85 L532 140 L487 230 L510 310 L478 420" class="crack-line" style="--cl:480;--cd:2.2s;--cdelay:1.5s"/>
       <path d="M498 85 L460 130 L430 180" class="crack-line" style="--cl:180;--cd:1.2s;--cdelay:2.0s"/>
       <path d="M532 140 L570 175 L610 165" class="crack-line-bright" style="--cl:140;--cd:1s;--cdelay:2.2s"/>
       <path d="M487 230 L445 265 L420 310 L450 370" class="crack-line" style="--cl:200;--cd:1.4s;--cdelay:2.4s"/>
       <path d="M487 230 L530 258 L555 300" class="crack-line-bright" style="--cl:130;--cd:1s;--cdelay:2.6s"/>
+      <!-- right side hairline cracks -->
       <path d="M980 100 L1005 180 L990 260 L1020 340" class="crack-line" style="--cl:320;--cd:1.8s;--cdelay:1.8s"/>
       <path d="M1005 180 L1040 215 L1065 200" class="crack-line-bright" style="--cl:110;--cd:0.9s;--cdelay:2.5s"/>
       <path d="M990 260 L960 295 L975 340 L950 390" class="crack-line" style="--cl:200;--cd:1.2s;--cdelay:2.8s"/>
+      <!-- fine hairlines across centre top -->
       <path d="M680 30 L695 90 L670 140" class="crack-line-bright" style="--cl:140;--cd:1s;--cdelay:2.0s"/>
       <path d="M695 90 L730 110 L755 95" class="crack-line-bright" style="--cl:100;--cd:0.8s;--cdelay:2.3s"/>
+      <!-- bottom edge crack -->
       <path d="M200 820 L240 790 L280 810 L320 775 L370 800" class="crack-line" style="--cl:220;--cd:1.5s;--cdelay:2.2s"/>
       <path d="M1100 840 L1130 808 L1160 820 L1200 795" class="crack-line-bright" style="--cl:160;--cd:1.2s;--cdelay:2.6s"/>
     </svg>
@@ -1468,22 +1483,22 @@ footer {
 
       <div class="expect-step fade-up">
         <div class="expect-node"></div>
-        <p class="expect-meta">01 / The Reservation</p>
-        <h3>Intentional Placement</h3>
-        <p>A curated allocation of time. Access our private schedule to claim an unhurried, single-artist window reserved exclusively for your session alignment.</p>
+        <p class="expect-meta">01 / Secure Your Space</p>
+        <h3>Intuitive Digital Booking</h3>
+        <p>Your sanctuary experience starts right where you are. Use our integrated booking engine to view modern availability, select your customized hair ritual, and immediately lock in your single-client time slot.</p>
       </div>
 
       <div class="expect-step fade-up">
         <div class="expect-node"></div>
-        <p class="expect-meta">02 / The Arrival</p>
+        <p class="expect-meta">02 / Enter the Sanctuary</p>
         <h3>A Space of Pure Quietude</h3>
         <p>Leave Doha's frantic pace behind at the door. Upon entering, you are welcomed by clean architectural air, calibrated organic textures, dynamic low lighting, and personalized refreshments intended to calm the nervous system.</p>
       </div>
 
       <div class="expect-step fade-up">
         <div class="expect-node"></div>
-        <p class="expect-meta">03 / The Session</p>
-        <h3>Artistry Meets Intention</h3>
+        <p class="expect-meta">03 / Artistry Meets Intention</p>
+        <h3>The Tailored Session</h3>
         <p>No generic routines, ever. Your session initiates with a deep, one-on-one architectural consultation analyzing your natural texture, movement profiles, and skin tones. We tailor our technical mastery entirely to your personal aura.</p>
       </div>
 
@@ -1552,34 +1567,24 @@ footer {
   </div>
   <div class="gallery-grid">
     <div class="gallery-item gi-1 fade-up">
-      <div class="gallery-img-container">
-        <img src="https://images.unsplash.com/photo-1522338140262-f46f5913618a?w=600&q=80" alt="Studio details" loading="lazy">
-      </div>
-      <span class="gallery-caption">REF. 01 // The Space</span>
+      <img src="https://images.unsplash.com/photo-1522338140262-f46f5913618a?w=600&q=80" alt="Studio details" loading="lazy">
+      <span class="gallery-caption">The Space</span>
     </div>
     <div class="gallery-item gi-2 fade-up">
-      <div class="gallery-img-container">
-        <img src="https://images.unsplash.com/photo-1470259078422-826894b933aa?w=700&q=80" alt="Colour depth" loading="lazy">
-      </div>
-      <span class="gallery-caption">REF. 02 // Precision Form</span>
+      <img src="https://images.unsplash.com/photo-1470259078422-826894b933aa?w=700&q=80" alt="Colour depth" loading="lazy">
+      <span class="gallery-caption">Precision Form</span>
     </div>
     <div class="gallery-item gi-3 fade-up">
-      <div class="gallery-img-container">
-        <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=80" alt="Texture styling" loading="lazy">
-      </div>
-      <span class="gallery-caption">REF. 03 // Texture Study</span>
+      <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=80" alt="Texture styling" loading="lazy">
+      <span class="gallery-caption">Texture Study</span>
     </div>
     <div class="gallery-item gi-4 fade-up">
-      <div class="gallery-img-container">
-        <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=700&q=80" alt="Finished look" loading="lazy">
-      </div>
-      <span class="gallery-caption">REF. 04 // Calculated Finish</span>
+      <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=700&q=80" alt="Finished look" loading="lazy">
+      <span class="gallery-caption">Calculated Finish</span>
     </div>
     <div class="gallery-item gi-5 fade-up">
-      <div class="gallery-img-container">
-        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&q=80" alt="Salon curation" loading="lazy">
-      </div>
-      <span class="gallery-caption">REF. 05 // The Collective</span>
+      <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&q=80" alt="Salon curation" loading="lazy">
+      <span class="gallery-caption">The Collective</span>
     </div>
   </div>
 </section>
@@ -1683,7 +1688,7 @@ window.addEventListener('scroll', () => {
   document.getElementById('floatBook').classList.toggle('show', window.scrollY > window.innerHeight * 0.6);
 }, { passive: true });
 
-// mobile menu setup
+// mobile dynamic interactive menu setup
 const hbg = document.getElementById('hamburger');
 const mob = document.getElementById('mobileMenu');
 hbg.addEventListener('click', () => {
@@ -1727,16 +1732,17 @@ document.querySelectorAll('.fade-up, [data-line], [data-border], [data-timeline-
   resize();
   window.addEventListener('resize', resize);
 
+  // Smoke particle system
   const PARTICLES = 38;
   const particles = [];
 
   function createParticle(i) {
-    const spread = 0.6;
+    const spread = 0.6; // how wide smoke spreads — centred
     return {
       x: canvas.width * (0.5 - spread/2 + Math.random() * spread),
-      y: canvas.height,
-      vy: -(0.15 + Math.random() * 0.25),
-      vx: (Math.random() - 0.5) * 0.08,
+      y: canvas.height,             // born at bottom
+      vy: -(0.15 + Math.random() * 0.25),  // slow upward drift
+      vx: (Math.random() - 0.5) * 0.08,   // tiny horizontal wander
       radius: 60 + Math.random() * 120,
       alpha: 0,
       targetAlpha: 0.022 + Math.random() * 0.032,
@@ -1749,6 +1755,7 @@ document.querySelectorAll('.fade-up, [data-line], [data-border], [data-timeline-
 
   for (let i = 0; i < PARTICLES; i++) {
     const p = createParticle(i);
+    // stagger starting positions so not all born at once
     p.life = Math.random() * p.maxLife;
     p.y = canvas.height - (p.life * Math.abs(p.vy));
     particles.push(p);
@@ -1756,6 +1763,8 @@ document.querySelectorAll('.fade-up, [data-line], [data-border], [data-timeline-
 
   function drawSmoke() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // target height — smoke rises to just below mid-screen (where NOMADIC text is)
     const smokeTopY = canvas.height * 0.32;
 
     particles.forEach(p => {
@@ -1763,8 +1772,9 @@ document.querySelectorAll('.fade-up, [data-line], [data-border], [data-timeline-
       p.wobble += p.wobbleSpeed;
       p.x += p.vx + Math.sin(p.wobble) * 0.12;
       p.y += p.vy;
-      p.radius += 0.18;
+      p.radius += 0.18; // slowly expand
 
+      // alpha: fade in over first 25% of life, hold, fade out last 20%
       const lifeRatio = p.life / p.maxLife;
       if (lifeRatio < 0.25) {
         p.alpha = (lifeRatio / 0.25) * p.targetAlpha;
@@ -1774,16 +1784,19 @@ document.querySelectorAll('.fade-up, [data-line], [data-border], [data-timeline-
         p.alpha = p.targetAlpha;
       }
 
+      // soft stop near text — reduce alpha as it approaches top zone
       if (p.y < smokeTopY + 80) {
         const fade = Math.max(0, (p.y - smokeTopY) / 80);
         p.alpha *= fade;
       }
 
+      // reset if past top or maxLife
       if (p.life >= p.maxLife || p.y < smokeTopY - 40) {
         Object.assign(p, createParticle());
         p.life = 0;
       }
 
+      // draw radial gradient blob
       if (p.alpha <= 0) return;
       const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
       grd.addColorStop(0,   `rgba(200,191,176,${p.alpha})`);
