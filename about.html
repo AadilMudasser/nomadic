@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — NOMADIC Hair | Beauty</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #0a0a0a;
+  --white: #f0ede8;
+  --stone: #9a9590;
+  --beige: #c8bfb0;
+  --cream: #e8e2d9;
+  --concrete: #3a3835;
+  --line: rgba(240,237,232,0.1);
+  --line-stone: rgba(154,149,144,0.25);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 200;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── GRAIN TEXTURE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  pointer-events: none;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* ── CONCRETE SECTION TEXTURE ── */
+.concrete-bg { position: relative; }
+.concrete-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23c)'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
+  mix-blend-mode: overlay;
+}
+.concrete-bg > * { position: relative; z-index: 1; }
+
+/* ── CUSTOM CURSOR ── */
+#cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--stone);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s;
+}
+#cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 0.5px solid rgba(154,149,144,0.45);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.18s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s;
+}
+body:has(a:hover) #cursor { width: 14px; height: 14px; }
+body:has(a:hover) #cursor-ring { width: 50px; height: 50px; opacity: 0.6; }
+@media (pointer: coarse) { #cursor, #cursor-ring { display: none; } body { cursor: auto; } }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 60px;
+  transition: background 0.4s, padding 0.4s;
+}
+nav.scrolled {
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(12px);
+  padding: 18px 60px;
+  border-bottom: 0.5px solid var(--line);
+}
+nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 60px; right: 60px;
+  height: 0.5px;
+  background: var(--line);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.2s ease 0.4s;
+}
+nav.line-in::after { transform: scaleX(1); }
+
+.nav-logo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 0.4em;
+  color: var(--white);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--stone); }
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(245,243,240,0.5);
+  text-decoration: none;
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a.active { color: var(--white); }
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 0;
+  width: 0; height: 0.5px;
+  background: var(--stone);
+  transition: width 0.3s;
+}
+.nav-links a.active::after { width: 100%; }
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-book {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--beige);
+  text-decoration: none;
+  padding: 10px 24px;
+  transition: background 0.3s, color 0.3s;
+}
+.nav-book:hover { background: var(--white); color: var(--black); }
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px; height: 0.5px;
+  background: var(--white);
+  transition: transform 0.3s, opacity 0.3s;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+.nav-mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(8,8,8,0.97);
+  z-index: 400;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+.nav-mobile-menu.open { opacity: 1; pointer-events: all; display: flex; }
+.nav-mobile-menu a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px;
+  font-weight: 300;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: color 0.3s;
+}
+.nav-mobile-menu a:hover { color: var(--stone); }
+.nav-mobile-menu .mob-book {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--stone);
+  padding: 14px 36px;
+  margin-top: 12px;
+}
+
+/* ── PAGE HERO ── */
+#page-hero {
+  position: relative;
+  height: 52vh;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 72px;
+  overflow: hidden;
+  background: var(--black);
+}
+.page-hero-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+}
+.page-hero-grid svg { width: 100%; height: 100%; }
+.ph-eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.5s forwards;
+  position: relative; z-index: 2;
+}
+.ph-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 24px; height: 0.5px;
+  background: var(--stone);
+  opacity: 0.5;
+}
+.ph-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(52px, 8vw, 104px);
+  line-height: 0.92;
+  text-align: center;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.8s forwards;
+  position: relative; z-index: 2;
+}
+.ph-title em { font-style: italic; color: var(--beige); }
+.ph-divider {
+  width: min(80vw, 700px);
+  height: 0.5px;
+  background: var(--stone);
+  opacity: 0.3;
+  margin-top: 28px;
+  transform: scaleX(0);
+  transform-origin: center;
+  animation: lineExpand 0.9s ease 1.3s forwards;
+  position: relative; z-index: 2;
+}
+
+/* ── SECTION BASE ── */
+section { position: relative; overflow: hidden; }
+.section-line {
+  position: absolute;
+  top: 0; left: 60px; right: 60px;
+  height: 0.5px;
+  background: var(--line);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.1s ease;
+}
+.section-line.drawn { transform: scaleX(1); }
+.fade-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.fade-up.in { opacity: 1; transform: translateY(0); }
+
+/* ── SECTION CRACKS ── */
+.section-crack {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+.section-crack.visible { opacity: 1; }
+.section-crack svg { position: absolute; width: 100%; height: 100%; inset: 0; }
+.s-crack {
+  stroke: rgba(240,237,232,0.08);
+  stroke-width: 0.7;
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: var(--cl, 300);
+  stroke-dashoffset: var(--cl, 300);
+  transition: stroke-dashoffset 2s cubic-bezier(0.4,0,0.2,1) var(--cd, 0s);
+}
+.section-crack.visible .s-crack { stroke-dashoffset: 0; }
+.s-crack-bright {
+  stroke: rgba(200,191,176,0.14);
+  stroke-width: 0.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: var(--cl, 200);
+  stroke-dashoffset: var(--cl, 200);
+  transition: stroke-dashoffset 1.6s cubic-bezier(0.4,0,0.2,1) var(--cd, 0.2s);
+}
+.section-crack.visible .s-crack-bright { stroke-dashoffset: 0; }
+
+/* ── SHARED LABEL ── */
+.about-label {
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.about-label::before {
+  content: '';
+  display: inline-block;
+  width: 20px; height: 0.5px;
+  background: var(--stone);
+}
+.beige-label { color: var(--beige) !important; }
+.beige-label::before { background: var(--beige) !important; }
+
+/* ── WHO ARE WE ── */
+#who {
+  padding: 120px 60px 80px;
+}
+.who-intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: start;
+  margin-bottom: 80px;
+}
+.who-text-col {}
+.who-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(42px, 5vw, 72px);
+  line-height: 1.02;
+  margin-bottom: 36px;
+}
+.who-heading em { font-style: italic; color: var(--beige); }
+.who-body {
+  font-size: 12px;
+  line-height: 2.3;
+  color: rgba(245,243,240,0.45);
+}
+.who-body p { margin-bottom: 20px; }
+.who-body p:last-child { margin-bottom: 0; }
+
+/* ── EDITORIAL PHOTO GRID ── */
+.who-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto auto;
+  gap: 20px;
+  margin-top: 64px;
+}
+.wp-item {
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1.1s cubic-bezier(0.25, 1, 0.5, 1), transform 1.1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.wp-item.in { opacity: 1; transform: translateY(0); }
+.wp-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.68) contrast(1.1) grayscale(30%) saturate(0.5);
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s ease;
+}
+.wp-item:hover img {
+  transform: scale(1.04);
+  filter: brightness(0.82) contrast(1.05) grayscale(8%) saturate(0.7);
+}
+.wp-item .wp-cap {
+  position: absolute;
+  bottom: 16px; left: 16px;
+  font-size: 8px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cream);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s, transform 0.4s;
+}
+.wp-item:hover .wp-cap { opacity: 1; transform: translateY(0); }
+
+/* Editorial layout: 5 photos */
+.wp-1 { grid-column: span 5; aspect-ratio: 3/4; }
+.wp-2 { grid-column: span 4; aspect-ratio: 3/4; margin-top: 60px; }
+.wp-3 { grid-column: span 3; aspect-ratio: 1/1; }
+.wp-4 { grid-column: span 7; aspect-ratio: 16/9; margin-top: -40px; }
+.wp-5 { grid-column: span 5; aspect-ratio: 4/5; }
+
+/* ── MEET THE STAFF CAROUSEL ── */
+#staff {
+  padding: 120px 60px;
+  background: linear-gradient(180deg, var(--black) 0%, rgba(16,14,11,0.98) 50%, var(--black) 100%);
+}
+.staff-header {
+  margin-bottom: 64px;
+}
+.staff-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 1;
+}
+.staff-title em { font-style: italic; color: var(--beige); }
+
+.staff-carousel-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.staff-track {
+  display: flex;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.staff-slide {
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.staff-img-wrap {
+  position: relative;
+  height: 600px;
+}
+.staff-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: brightness(0.72) contrast(1.1) saturate(0.55);
+}
+.staff-img-border {
+  position: absolute;
+  top: 20px; left: 20px; right: -20px; bottom: -20px;
+  border: 0.5px solid var(--line-stone);
+  pointer-events: none;
+}
+.staff-content {}
+.staff-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(42px, 5.5vw, 72px);
+  line-height: 0.95;
+  margin-bottom: 8px;
+}
+.staff-role {
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--beige);
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.staff-role::before {
+  content: '';
+  display: inline-block;
+  width: 16px; height: 0.5px;
+  background: var(--stone);
+}
+.staff-bio {
+  font-size: 12px;
+  line-height: 2.2;
+  color: rgba(245,243,240,0.45);
+  margin-bottom: 48px;
+}
+.staff-specialty {
+  display: flex;
+  gap: 0;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+.staff-tag {
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(245,243,240,0.35);
+  border: 0.5px solid var(--line-stone);
+  padding: 7px 14px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+/* Carousel Controls */
+.staff-controls {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 52px;
+}
+.staff-arrow {
+  width: 48px; height: 48px;
+  border: 0.5px solid var(--line-stone);
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+}
+.staff-arrow:hover { border-color: var(--stone); background: rgba(154,149,144,0.08); }
+.staff-arrow svg { width: 16px; height: 16px; stroke: var(--stone); fill: none; stroke-width: 1; }
+.staff-counter {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: rgba(245,243,240,0.25);
+}
+.staff-counter span { color: var(--stone); }
+.staff-dots {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+.staff-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(154,149,144,0.25);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+.staff-dot.active { background: var(--stone); transform: scale(1.4); }
+
+/* ── MEET MONIQUE ── */
+#monique {
+  padding: 120px 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.monique-img-wrap {
+  position: relative;
+  height: 680px;
+}
+.monique-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: brightness(0.72) contrast(1.1) saturate(0.55);
+  display: block;
+}
+.monique-quote {
+  position: absolute;
+  bottom: -1px; right: -1px;
+  background: #1a1814;
+  border: 0.5px solid rgba(200,191,176,0.2);
+  padding: 28px 30px;
+  max-width: 280px;
+}
+.monique-quote::before {
+  content: '"';
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 60px;
+  color: var(--stone);
+  opacity: 0.25;
+  line-height: 1;
+  display: block;
+  margin-bottom: -10px;
+}
+.monique-quote p {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(245,243,240,0.65);
+}
+.monique-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(52px, 6.5vw, 88px);
+  line-height: 0.92;
+  margin-bottom: 8px;
+}
+.monique-title-sub {
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--beige);
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.monique-title-sub::before {
+  content: '';
+  display: inline-block;
+  width: 16px; height: 0.5px;
+  background: var(--stone);
+}
+.monique-bio {
+  font-size: 12px;
+  line-height: 2.3;
+  color: rgba(245,243,240,0.45);
+  margin-bottom: 48px;
+}
+.monique-stats {
+  display: flex;
+  gap: 40px;
+  padding-top: 36px;
+  border-top: 0.5px solid var(--line);
+}
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  font-weight: 300;
+  color: var(--cream);
+  display: block;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-label {
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(245,243,240,0.28);
+}
+.monique-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 48px;
+}
+.monique-hl {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  font-size: 11px;
+  line-height: 1.8;
+  color: rgba(245,243,240,0.38);
+}
+.monique-hl::before {
+  content: '';
+  flex-shrink: 0;
+  margin-top: 9px;
+  width: 12px; height: 0.5px;
+  background: var(--stone);
+  opacity: 0.5;
+}
+
+/* ── CTA STRIP ── */
+#cta-strip {
+  padding: 100px 60px;
+  text-align: center;
+  background: linear-gradient(180deg, var(--black) 0%, #100e0b 40%, #100e0b 60%, var(--black) 100%);
+  position: relative;
+}
+.cta-eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.cta-eyebrow::before, .cta-eyebrow::after {
+  content: '';
+  display: inline-block;
+  width: 30px; height: 0.5px;
+  background: var(--stone);
+  opacity: 0.4;
+}
+.cta-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 0.95;
+  margin-bottom: 48px;
+}
+.cta-heading em { font-style: italic; color: var(--cream); }
+.cta-btn {
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--beige);
+  padding: 18px 56px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.35s;
+}
+.cta-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--cream);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s ease;
+}
+.cta-btn:hover::before { transform: scaleX(1); transform-origin: left; }
+.cta-btn span { position: relative; z-index: 1; }
+.cta-sub {
+  margin-top: 28px;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: rgba(200,191,176,0.22);
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 44px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 0.5px solid rgba(200,191,176,0.12);
+  background: #0d0b09;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.footer-logo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: rgba(245,243,240,0.35);
+}
+.footer-logo span { color: var(--stone); }
+.footer-copy {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: rgba(245,243,240,0.15);
+}
+.footer-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+.footer-links a {
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(245,243,240,0.28);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-links a:hover { color: var(--stone); }
+
+/* ── FLOAT BOOK ── */
+.float-book {
+  position: fixed;
+  bottom: 32px; right: 32px;
+  z-index: 300;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--beige);
+  padding: 13px 26px;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s, transform 0.5s, background 0.3s;
+}
+.float-book.show { opacity: 1; transform: translateY(0); }
+.float-book:hover { background: var(--cream); color: var(--black); }
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes lineExpand { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 22px 24px; }
+  nav.scrolled { padding: 16px 24px; }
+  nav::after { display: none; }
+  .nav-links, .nav-book { display: none; }
+  .nav-hamburger { display: flex; }
+
+  .section-line { left: 0 !important; right: 0 !important; width: 100% !important; transform: scaleX(1) !important; }
+
+  #page-hero { padding-bottom: 52px; }
+  .ph-title { font-size: clamp(44px, 12vw, 80px); }
+
+  #who { padding: 80px 24px 60px; }
+  .who-intro-grid { grid-template-columns: 1fr; gap: 40px; }
+  .who-photo-grid {
+    display: flex; flex-direction: column; gap: 28px;
+  }
+  .wp-item { aspect-ratio: 4/5 !important; margin-top: 0 !important; }
+
+  #staff { padding: 80px 24px; }
+  .staff-slide { grid-template-columns: 1fr; gap: 40px; }
+  .staff-img-wrap { height: 380px; }
+  .staff-img-border { display: none; }
+
+  #monique { grid-template-columns: 1fr; padding: 80px 24px; gap: 48px; }
+  .monique-img-wrap { height: 420px; }
+  .monique-quote { max-width: 220px; }
+  .monique-stats { gap: 24px; flex-wrap: wrap; }
+
+  #cta-strip { padding: 80px 24px; }
+
+  footer { padding: 36px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .footer-links { flex-wrap: wrap; gap: 20px; }
+  .float-book { bottom: 20px; right: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::after, *::before { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- MOBILE MENU -->
+<div class="nav-mobile-menu" id="mobileMenu">
+  <a href="index.html" class="mob-link">Home</a>
+  <a href="index.html#services" class="mob-link">Services</a>
+  <a href="index.html#gallery-section" class="mob-link">Gallery</a>
+  <a href="about.html" class="mob-link">About</a>
+  <a href="index.html#cta" class="mob-book">Book Now</a>
+</div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo">NOMADIC<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#gallery-section">Gallery</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+  </ul>
+  <a href="index.html#cta" class="nav-book">Book Now</a>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- PAGE HERO -->
+<section id="page-hero">
+  <div class="page-hero-grid">
+    <svg viewBox="0 0 1440 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="499" x2="1440" y2="499" stroke="rgba(154,149,144,0.15)" stroke-width="0.5"/>
+      <line x1="120" y1="0" x2="120" y2="500" stroke="rgba(154,149,144,0.05)" stroke-width="0.5"/>
+      <line x1="1320" y1="0" x2="1320" y2="500" stroke="rgba(154,149,144,0.05)" stroke-width="0.5"/>
+      <line x1="720" y1="0" x2="720" y2="500" stroke="rgba(154,149,144,0.04)" stroke-width="0.5" stroke-dasharray="4 12"/>
+      <!-- hairline cracks in hero -->
+      <path d="M300 80 L315 150 L295 220 L320 300" stroke="rgba(240,237,232,0.07)" stroke-width="0.7" fill="none" stroke-linecap="round"/>
+      <path d="M315 150 L348 172 L365 160" stroke="rgba(200,191,176,0.1)" stroke-width="0.5" fill="none" stroke-linecap="round"/>
+      <path d="M1100 60 L1085 140 L1108 220" stroke="rgba(240,237,232,0.07)" stroke-width="0.7" fill="none" stroke-linecap="round"/>
+      <path d="M1085 140 L1055 165 L1040 155" stroke="rgba(200,191,176,0.1)" stroke-width="0.5" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <p class="ph-eyebrow">Nomadic · Doha, Qatar</p>
+  <h1 class="ph-title">About<br><em>Us</em></h1>
+  <div class="ph-divider"></div>
+</section>
+
+<!-- WHO ARE WE -->
+<section id="who" class="concrete-bg">
+  <div class="section-crack" data-crack>
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M80 0 L98 70 L74 150 L102 240 L80 340" class="s-crack" style="--cl:400;--cd:0s"/>
+      <path d="M98 70 L135 96 L158 84" class="s-crack-bright" style="--cl:120;--cd:0.3s"/>
+      <path d="M74 150 L44 182 L58 218" class="s-crack" style="--cl:100;--cd:0.5s"/>
+      <path d="M1340 100 L1360 180 L1338 265 L1358 350" class="s-crack" style="--cl:300;--cd:0.1s"/>
+      <path d="M1360 180 L1392 205 L1412 195" class="s-crack-bright" style="--cl:110;--cd:0.4s"/>
+    </svg>
+  </div>
+  <div class="section-line" data-line></div>
+
+  <div class="who-intro-grid">
+    <div class="who-text-col fade-up">
+      <p class="about-label beige-label">Who We Are</p>
+      <h2 class="who-heading">A sanctuary<br>of <em>creativity.</em></h2>
+    </div>
+    <div class="who-text-col fade-up" style="transition-delay:0.15s">
+      <div class="who-body">
+        <p>At Nomadic London, we believe that great hair is more than just a style — it's a statement of individuality. Nestled in the heart of The Pearl, Qatar, our salon is a sanctuary of creativity, expertise, and personalised care.</p>
+        <p>Our team of skilled international stylists is dedicated to delivering hair excellence, combining artistry with precision to craft looks that reflect your personality and lifestyle.</p>
+        <p>Whether you're seeking a bold transformation, a timeless refresh, or a bespoke treatment tailored to your hair's unique needs, we're here to bring your vision to life.</p>
+        <p>Experience the luxury of expert haircare in an environment designed for you. Welcome to Nomadic London.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5-photo editorial grid -->
+  <div class="who-photo-grid">
+    <div class="wp-item wp-1 fade-up">
+      <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=700&q=80" alt="Salon interior" loading="lazy">
+      <span class="wp-cap">The Space</span>
+    </div>
+    <div class="wp-item wp-2 fade-up" style="transition-delay:0.1s">
+      <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=700&q=80" alt="Colour work" loading="lazy">
+      <span class="wp-cap">Colour Artistry</span>
+    </div>
+    <div class="wp-item wp-3 fade-up" style="transition-delay:0.2s">
+      <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=80" alt="Texture" loading="lazy">
+      <span class="wp-cap">Texture Study</span>
+    </div>
+    <div class="wp-item wp-4 fade-up" style="transition-delay:0.05s">
+      <img src="https://images.unsplash.com/photo-1470259078422-826894b933aa?w=900&q=80" alt="Styling" loading="lazy">
+      <span class="wp-cap">Precision Form</span>
+    </div>
+    <div class="wp-item wp-5 fade-up" style="transition-delay:0.15s">
+      <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=700&q=80" alt="The collective" loading="lazy">
+      <span class="wp-cap">The Collective</span>
+    </div>
+  </div>
+</section>
+
+<!-- MEET THE STAFF -->
+<section id="staff">
+  <div class="section-line" data-line></div>
+  <div class="staff-header fade-up">
+    <p class="about-label beige-label">The Team</p>
+    <h2 class="staff-title">Meet the<br><em>Staff</em></h2>
+  </div>
+
+  <div class="staff-carousel-wrap">
+    <div class="staff-track" id="staffTrack">
+
+      <!-- Slide 1 -->
+      <div class="staff-slide">
+        <div class="staff-img-wrap fade-up">
+          <img class="staff-img" src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800&q=80" alt="Stylist" loading="lazy">
+          <div class="staff-img-border"></div>
+        </div>
+        <div class="staff-content fade-up" style="transition-delay:0.15s">
+          <p class="about-label">Senior Stylist</p>
+          <h3 class="staff-name">Isabelle</h3>
+          <p class="staff-role">Colour Specialist</p>
+          <p class="staff-bio">Isabelle brings over eight years of European colour expertise to the Nomadic chair. Trained in Paris and refined across London's most celebrated salons, her approach to blonding and balayage is unrivalled — each look built around the individual, never a template.</p>
+          <div class="staff-specialty">
+            <span class="staff-tag">Balayage</span>
+            <span class="staff-tag">Blonding</span>
+            <span class="staff-tag">Colour Correction</span>
+            <span class="staff-tag">Toning</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="staff-slide">
+        <div class="staff-img-wrap fade-up">
+          <img class="staff-img" src="https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?w=800&q=80" alt="Stylist" loading="lazy">
+          <div class="staff-img-border"></div>
+        </div>
+        <div class="staff-content fade-up" style="transition-delay:0.15s">
+          <p class="about-label">Senior Stylist</p>
+          <h3 class="staff-name">Farah</h3>
+          <p class="staff-role">Curl & Texture Expert</p>
+          <p class="staff-bio">Farah is the team's authority on curls, coils, and natural texture. Her deep understanding of curl patterns — and how to work with them, never against them — has made her one of the most sought-after stylists at Nomadic. Every client leaves with hair that feels truly liberated.</p>
+          <div class="staff-specialty">
+            <span class="staff-tag">Curls & Coils</span>
+            <span class="staff-tag">Natural Texture</span>
+            <span class="staff-tag">Bespoke Cuts</span>
+            <span class="staff-tag">Treatments</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="staff-slide">
+        <div class="staff-img-wrap fade-up">
+          <img class="staff-img" src="https://images.unsplash.com/photo-1522338140262-f46f5913618a?w=800&q=80" alt="Stylist" loading="lazy">
+          <div class="staff-img-border"></div>
+        </div>
+        <div class="staff-content fade-up" style="transition-delay:0.15s">
+          <p class="about-label">Stylist</p>
+          <h3 class="staff-name">Chloe</h3>
+          <p class="staff-role">Precision Cutting</p>
+          <p class="staff-bio">Chloe's eye for structure and movement is something she was born with and trained to perfection. With a background in advanced architectural cutting, she sculpts each look with deliberate intention — whether it's a sharp bob, a layered long cut, or a textured crop.</p>
+          <div class="staff-specialty">
+            <span class="staff-tag">Precision Cuts</span>
+            <span class="staff-tag">Editorial Styling</span>
+            <span class="staff-tag">Blow Dry</span>
+            <span class="staff-tag">Vivid Colour</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="staff-slide">
+        <div class="staff-img-wrap fade-up">
+          <img class="staff-img" src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=800&q=80" alt="Stylist" loading="lazy">
+          <div class="staff-img-border"></div>
+        </div>
+        <div class="staff-content fade-up" style="transition-delay:0.15s">
+          <p class="about-label">Stylist</p>
+          <h3 class="staff-name">Nadia</h3>
+          <p class="staff-role">Vivid Colour & Extensions</p>
+          <p class="staff-bio">Nadia's speciality lies in the bold and the expressive. From saturated vivids to pastel fades, she pushes colour further than most dare — always with calculated care for hair integrity. She also holds advanced certification in hair extension placement and blending.</p>
+          <div class="staff-specialty">
+            <span class="staff-tag">Vivid Colour</span>
+            <span class="staff-tag">Extensions</span>
+            <span class="staff-tag">Fashion Colour</span>
+            <span class="staff-tag">Consultations</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /staff-track -->
+  </div>
+
+  <div class="staff-controls fade-up">
+    <button class="staff-arrow" id="prevBtn" aria-label="Previous">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="staff-arrow" id="nextBtn" aria-label="Next">
+      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+    </button>
+    <span class="staff-counter"><span id="currentSlide">1</span> / <span id="totalSlides">4</span></span>
+    <div class="staff-dots" id="staffDots">
+      <div class="staff-dot active" data-index="0"></div>
+      <div class="staff-dot" data-index="1"></div>
+      <div class="staff-dot" data-index="2"></div>
+      <div class="staff-dot" data-index="3"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MEET MONIQUE -->
+<section id="monique" class="concrete-bg" style="position:relative;">
+  <div class="section-crack" data-crack>
+    <svg viewBox="0 0 1440 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1360 50 L1340 140 L1368 230 L1345 330 L1372 430 L1350 530" class="s-crack" style="--cl:560;--cd:0s"/>
+      <path d="M1340 140 L1302 170 L1282 158" class="s-crack-bright" style="--cl:120;--cd:0.3s"/>
+      <path d="M1368 230 L1400 258 L1418 246" class="s-crack-bright" style="--cl:90;--cd:0.5s"/>
+      <path d="M60 350 L84 410 L62 470 L88 540" class="s-crack" style="--cl:220;--cd:0.2s"/>
+      <path d="M84 410 L114 432 L130 420" class="s-crack-bright" style="--cl:90;--cd:0.6s"/>
+    </svg>
+  </div>
+  <div class="section-line" data-line></div>
+  <div class="monique-img-wrap fade-up">
+    <img class="monique-img" src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=900&q=80" alt="Monique" loading="lazy">
+    <div class="monique-quote">
+      <p>Hair is the most honest expression of who you are becoming.</p>
+    </div>
+  </div>
+  <div class="fade-up" style="transition-delay:0.2s">
+    <p class="about-label">The Artist Behind Nomadic</p>
+    <h2 class="monique-name">Monique</h2>
+    <p class="monique-title-sub">Founder & Lead Stylist</p>
+    <p class="monique-bio">
+      With over 15 years of global experience, Monique is a true visionary in the world of hair artistry. Originally from London, she has honed her craft across seven countries, shaping trends and redefining excellence in every salon she's worked in.
+    </p>
+    <div class="monique-highlights">
+      <div class="monique-hl">London Fashion Week stylist for nine consecutive seasons</div>
+      <div class="monique-hl">Editorial work with GQ, independent designers, and high-profile clientele</div>
+      <div class="monique-hl">Founder of innovative concepts for internationally renowned salon brands</div>
+      <div class="monique-hl">Available as private stylist and educator</div>
+    </div>
+    <div class="monique-stats">
+      <div>
+        <span class="stat-num">15+</span>
+        <span class="stat-label">Years of global artistry</span>
+      </div>
+      <div>
+        <span class="stat-num">7</span>
+        <span class="stat-label">Countries worked in</span>
+      </div>
+      <div>
+        <span class="stat-num">9</span>
+        <span class="stat-label">LFW seasons</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<section id="cta-strip">
+  <p class="cta-eyebrow fade-up">Begin Your Transformation</p>
+  <h2 class="cta-heading fade-up">Book Your<br><em>Consultation</em></h2>
+  <a href="BOOKING_LINK_HERE" class="cta-btn fade-up">
+    <span>Book a Free Consultation</span>
+  </a>
+  <p class="cta-sub fade-up">Complimentary · No commitment · Doha, Qatar</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">NOMADIC<span>.</span> HAIR | BEAUTY</span>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#gallery-section">Gallery</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <span class="footer-copy">© 2026 Nomadic · Doha, Qatar</span>
+</footer>
+
+<a href="BOOKING_LINK_HERE" class="float-book" id="floatBook">Book Now</a>
+
+<script>
+// ── CURSOR ──
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+
+// ── NAV SCROLL ──
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 60);
+  document.getElementById('floatBook').classList.toggle('show', window.scrollY > 300);
+}, { passive: true });
+
+// ── HAMBURGER ──
+const hbg = document.getElementById('hamburger');
+const mob = document.getElementById('mobileMenu');
+hbg.addEventListener('click', () => {
+  hbg.classList.toggle('open');
+  mob.classList.toggle('open');
+});
+mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  hbg.classList.remove('open');
+  mob.classList.remove('open');
+}));
+
+// ── NAV LINE ──
+window.addEventListener('load', () => {
+  setTimeout(() => { document.querySelector('nav').classList.add('line-in'); }, 1400);
+});
+
+// ── SCROLL REVEAL ──
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    if (e.target.classList.contains('fade-up'))     e.target.classList.add('in');
+    if (e.target.dataset.line !== undefined)         e.target.classList.add('drawn');
+    if (e.target.hasAttribute('data-crack'))         e.target.classList.add('visible');
+    if (e.target.classList.contains('wp-item'))      e.target.classList.add('in');
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.fade-up, [data-line], [data-crack], .wp-item').forEach(el => obs.observe(el));
+
+// ── STAFF CAROUSEL ──
+const track = document.getElementById('staffTrack');
+const dots  = document.querySelectorAll('.staff-dot');
+const totalSlides = 4;
+let current = 0;
+
+function goTo(n) {
+  current = (n + totalSlides) % totalSlides;
+  track.style.transform = `translateX(-${current * 100}%)`;
+  document.getElementById('currentSlide').textContent = current + 1;
+  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.index)));
+
+// Swipe support
+let touchStartX = 0;
+track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+track.addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+});
+</script>
+</body>
+</html>
